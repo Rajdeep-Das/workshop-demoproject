@@ -17,7 +17,7 @@ A Sample Python Flask Web Apllication For Practise and Demo:
 $ mkdir workshop-project
 $ cd  workshop-project
 $ python3 -m venv workshopenv
-$ workshopenv/Scripts/activate
+$ workshopenv\Scripts\activate
 $ mkdir app
 $ cd app
 ```
