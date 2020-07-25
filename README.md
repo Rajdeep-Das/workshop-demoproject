@@ -21,7 +21,7 @@ $ workshopenv/Scripts/activate
 $ mkdir app
 $ cd app
 ```
-Insttling Python Packages
+### Instaling Python Packages
 
 ```sh
 $ pip install FLASK
