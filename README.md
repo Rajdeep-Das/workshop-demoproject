@@ -27,7 +27,7 @@ $ cd app
 $ pip install FLASK
 $ pip install Flask-Bootstrap4
 $ pip install WTForms
-$ pip install email-validator
+$ pip install email_validator
 ```
 
 For debug and run environments...
