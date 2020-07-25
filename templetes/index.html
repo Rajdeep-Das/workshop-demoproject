@@ -15,18 +15,44 @@
                     <form action="/" method="POST">
                         <div class="form-group">
                             {{ wtf.form_field(form.name) }}
+                            {% for errors in form.name.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="form-group">
                             {{ wtf.form_field(form.email) }}
+                            {% for errors in form.email.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="form-group">
                             {{ wtf.form_field(form.password) }}
+                            {% for errors in form.password.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="form-group">
+                            {{ form.gender.label }}
                             {{ wtf.form_field(form.gender) }}
+                            {% for errors in form.gender.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="form-group">
                             {{ wtf.form_field(form.prolanguage) }}
+                            {% for errors in form.prolanguage.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
                         </div>
                         <div class="form-group">
                             <input type="submit" class="btn btn-danger btn-block" value="Register"/>

@@ -5,9 +5,9 @@ class LoginForm(Form):
     password = PasswordField('Password', [validators.Length(min=6, max=15, message='Password should be 6 to 15 characters')])
 
 class RegisterForm(Form):
-    name = TextField('Name')
-    email = TextField('Email')
-    password = PasswordField('Password')
+    name = TextField('Name', [validators.Required()])
+    email = TextField('Email', [validators.Email('Please enter valid email')])
+    password = PasswordField('Password', [validators.Length(min=6, max=15, message='Password must be 6 to 15 characters')])
     #('C','C') = ('Value','Label')
-    gender = RadioField('Gender', choices=[('Male','Male'),('Female','Female')])
-    prolanguage = SelectField('Language', choices=[('C','C'),('CPP','C++'),('Java','Java'),('Python','Python')])
+    gender = RadioField('Gender', [validators.Required()], choices=[('Male','Male'),('Female','Female')])
+    prolanguage = SelectField('Language', [validators.Required()], choices=[('','-Select-'),('C','C'),('CPP','C++'),('Java','Java'),('Python','Python')])

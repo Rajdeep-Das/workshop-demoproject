@@ -7,7 +7,7 @@ Bootstrap(app)
 
 @app.route('/', methods=['GET','POST'])
 def index():
-    regform = RegisterForm()
+    regform = RegisterForm(request.form)
     if request.method == 'POST':
         if regform.validate():
             return 'Registered Successfully!'
