@@ -21,11 +21,13 @@ $ workshopenv/Scripts/activate
 $ mkdir app
 $ cd app
 ```
-### Instaling Python Packages
+### Installing Python Packages
 
 ```sh
 $ pip install FLASK
-$ 
+$ pip install Flask-Bootstrap4
+$ pip install WTForms
+$ pip install validator
 ```
 
 For debug and run environments...
