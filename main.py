@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from forms import LoginForm
 
@@ -11,6 +11,12 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    fm = LoginForm()
-    return render_template('login.html', form=fm)
+    fm = LoginForm(request.form)
+    if request.method == 'POST':
+        if fm.validate():
+            return 'Submitted!'
+        else:
+            return render_template('login.html', form=fm)
+    elif request.method == 'GET':
+        return render_template('login.html', form=fm)
 
