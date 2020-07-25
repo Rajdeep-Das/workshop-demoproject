@@ -1,13 +1,20 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
 
 app = Flask(__name__, template_folder='templetes')
 Bootstrap(app)
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
-    return render_template('index.html')
+    regform = RegisterForm()
+    if request.method == 'POST':
+        if regform.validate():
+            return 'Registered Successfully!'
+        else:
+            return render_template('index.html', form=regform)
+    elif request.method == 'GET':
+        return render_template('index.html', form=regform)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
