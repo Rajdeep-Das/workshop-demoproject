@@ -1,10 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from flask_bootstrap import Bootstrap
 from forms import LoginForm, RegisterForm
 from flaskext.mysql import MySQL
+import os
 
 app = Flask(__name__, template_folder='templetes')
 mysql = MySQL()
+key = os.urandom(15)
+print(key)
+app.config['SECRET_KEY'] = key
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
@@ -49,7 +53,21 @@ def login():
     fm = LoginForm(request.form)
     if request.method == 'POST':
         if fm.validate():
-            return 'Submitted!'
+            logindata = request.form
+            username = logindata['username']
+            password = logindata['password']
+            sql = "SELECT * FROM users WHERE email = %s and password = %s;"
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            rows = cursor.execute(sql,  (username, password))
+            conn.commit()
+            if rows > 0:
+                return 'Login seccessfully!'
+            else:
+                flash('Invalid username and password')
+                return render_template('login.html', form=fm)
+            cursor.close()
+            conn.close()            
         else:
             return render_template('login.html', form=fm)
     elif request.method == 'GET':
