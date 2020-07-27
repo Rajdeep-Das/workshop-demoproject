@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, session
 from flask_bootstrap import Bootstrap
 from forms import LoginForm, RegisterForm
 from flaskext.mysql import MySQL
@@ -62,6 +62,7 @@ def login():
             rows = cursor.execute(sql,  (username, password))
             conn.commit()
             if rows > 0:
+                session['username'] = username
                 return 'Login seccessfully!'
             else:
                 flash('Invalid username and password')
