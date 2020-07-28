@@ -1,0 +1,105 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Add Employee{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-6 offset-3">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for errors in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{errors}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="card">
+                <div class="card-header">
+                    Add Employee
+                </div>
+                <div class="card-body">
+                    <form action="/addemp" method="POST">
+                        <div class="form-group">
+                            {{ wtf.form_field(form.firstname) }}
+                            {% for errors in form.firstname.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.midname) }}
+                            {% for errors in form.midname.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.lastname) }}
+                            {% for errors in form.lastname.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.address) }}
+                            {% for errors in form.address.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.email) }}
+                            {% for errors in form.email.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.mobile) }}
+                            {% for errors in form.mobile.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.gender.label }}
+                            {{ wtf.form_field(form.gender) }}
+                            {% for errors in form.gender.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.designation) }}
+                            {% for errors in form.designation.errors %}
+                            <div style="color: red;">
+                                {{errors}}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger btn-block" value="Save" />
+                        </div>
+                        <div class="form-group">
+                            <a href="{{url_for('index')}}" class="btn btn-primary btn-block">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

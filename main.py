@@ -19,7 +19,14 @@ Bootstrap(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return render_template('index.html')
+        sql = "SELECT * FROM employees WHERE delete_flag = 0;"
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        empdata = cursor.fetchall() 
+        cursor.close()
+        conn.close()       
+        return render_template('index.html', data = empdata)
     else:
         return redirect(url_for('login'))
 
@@ -84,14 +91,56 @@ def login():
 
 @app.route('/addemp', methods=['GET', 'POST'])
 def addemp():
-    form = EmployeeForm(request.form)
-    if request.method == 'POST':
-        if form.validate():
-            return 'Submitted!'
-        else:
+    if 'username' in session:
+        form = EmployeeForm(request.form)
+        if request.method == 'POST':
+            if form.validate():
+                empdata = request.form
+                firstname = empdata['firstname']
+                midname = empdata['midname']
+                lastname = empdata['lastname']
+                address = empdata['address']
+                email = empdata['email']
+                mobile = empdata['mobile']
+                gender = empdata['gender']
+                designation = empdata['designation']
+                name = firstname+" "+midname+" "+lastname
+                sql = "INSERT INTO employees(name, email, mobile, gender, designation, address) VALUES(%s, %s, %s, %s, %s, %s);"
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                rows = cursor.execute(sql, (name, email, mobile, gender, designation, address))
+                conn.commit()
+                if rows > 0:
+                    flash('Employee Added Successfully')
+                    return redirect(url_for('addemp'))  
+                else:
+                    flash('Failed to added new employee!')
+                    return redirect(url_for('addemp'))
+                cursor.close()
+                conn.close()
+            else:
+                return render_template('addemployee.html', form=form)
+        elif request.method == 'GET':
             return render_template('addemployee.html', form=form)
-    elif request.method == 'GET':
-        return render_template('addemployee.html', form=form)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/delete/<id>')
+def delete(id):
+    if 'username' in session:
+        sql = "UPDATE employees SET delete_flag = 1 WHERE id = %s;"
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        rows = cursor.execute(sql, (id))
+        conn.commit()
+        if rows > 0:
+            flash('Deleted Successfully')
+            return redirect(url_for('index'))
+        else:
+            flash('Delete Failed')
+            return redirect(url_for('index'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
