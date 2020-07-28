@@ -16,12 +16,45 @@
                     <a class="nav-link" href="#">{{session['username']}}<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
+                    <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+{% endblock %}
+
+{% block content %}
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="{{url_for('addemp')}}" type="button" class="btn btn-warning float-right">Add</a>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Designation</th>                        
+                        <th scope="col">Image</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block styles %}

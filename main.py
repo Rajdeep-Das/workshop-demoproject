@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 from flask_bootstrap import Bootstrap
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, EmployeeForm
 from flaskext.mysql import MySQL
 import os
 
@@ -82,3 +82,18 @@ def login():
     elif request.method == 'GET':
         return render_template('login.html', form=fm)
 
+@app.route('/addemp', methods=['GET', 'POST'])
+def addemp():
+    form = EmployeeForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            return 'Submitted!'
+        else:
+            return render_template('addemployee.html', form=form)
+    elif request.method == 'GET':
+        return render_template('addemployee.html', form=form)
+
+@app.route('/logout')
+def logout():
+    session.pop('username',None)
+    return redirect(url_for('login'))
