@@ -1,0 +1,78 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <br/>
+    <div class="row">
+        <div class="col-sm-4 offset-4">
+            <div class="card">
+                <div class="card-header">
+                    Register
+                </div>
+                <div class="card-body">
+                    <form action="/register" method="POST">
+                        <div class="form-group">
+                            {{ wtf.form_field(form.name) }}
+                            {% for errors in form.name.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.email) }}
+                            {% for errors in form.email.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.password) }}
+                            {% for errors in form.password.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.gender.label }}
+                            {{ wtf.form_field(form.gender) }}
+                            {% for errors in form.gender.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ wtf.form_field(form.prolanguage) }}
+                            {% for errors in form.prolanguage.errors %}
+                                <div style="color: red;">
+                                    {{errors}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger btn-block" value="Register"/>
+                        </div>
+                        <div class="form-group">
+                            <a href="{{url_for('login')}}" class="btn btn-primary btn-block">Already have an account</a>                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %} 
+    {{super()}}
+    <link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
+{% endblock %}
+{% block scripts %}
+    <script src="{{url_for('.static', filename='myscripts.js')}}"></script>
+    {{super()}}
+{% endblock %}

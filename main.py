@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, session
+from flask import Flask, render_template, request, flash, session, redirect, url_for
 from flask_bootstrap import Bootstrap
 from forms import LoginForm, RegisterForm
 from flaskext.mysql import MySQL
@@ -16,8 +16,15 @@ app.config['MYSQL_DATABASE_DB'] = 'flaskdemo'
 mysql.init_app(app)
 Bootstrap(app)
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/')
 def index():
+    if 'username' in session:
+        return render_template('index.html')
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/register', methods=['GET','POST'])
+def register():
     regform = RegisterForm(request.form)
     if request.method == 'POST':
         if regform.validate():
@@ -38,15 +45,16 @@ def index():
                 rows = cursor.execute(insertsql, (name, email, password, gender, language))
                 conn.commit()
                 if rows > 0:
-                    return 'Registered Successfully!'
+                    session['username'] = email
+                    return redirect(url_for('index'))
                 else:
                     return 'Registration Failed!'
             cursor.close()#closing the cursor or do not execute the statement letter
             conn.close()#closing the mysql connection
         else:
-            return render_template('index.html', form=regform)
+            return render_template('register.html', form=regform)
     elif request.method == 'GET':
-        return render_template('index.html', form=regform)
+        return render_template('register.html', form=regform)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,7 +71,7 @@ def login():
             conn.commit()
             if rows > 0:
                 session['username'] = username
-                return 'Login seccessfully!'
+                return redirect(url_for('index'))
             else:
                 flash('Invalid username and password')
                 return render_template('login.html', form=fm)
