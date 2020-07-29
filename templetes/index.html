@@ -68,10 +68,14 @@
                             <td>{{emp[2]}}</td>
                             <td>{{emp[3]}}</td>
                             <td>{{emp[4]}}</td>
-                            <td>{{emp[5]}}</td>
-                            <td>{{emp[8]}}</td> 
+                            <td>{{emp[5]}}</td>                            
                             <td>
-                                <a href="#" class="btn btn-warning">Image</a>
+                                {% if emp[8] %}
+                                    <img src="{{ url_for('static', filename='uploads/' + emp[8]) }}" class="img-fluid">
+                                {% endif %}                                
+                            </td>
+                            <td>
+                                <a href="{{url_for('upload_file', id=emp[0])}}" class="btn btn-warning">Image</a>
                             </td>                           
                             <td>
                                 <a href="{{url_for('edit', id=emp[0])}}" class="btn btn-primary">Edit</a>

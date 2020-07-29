@@ -1,0 +1,30 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Image Upload{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-sm-6 offset-3">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for errors in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{errors}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="/image-upload/{{id}}" method="POST" enctype="multipart/form-data">
+                <input type="file" name='img' required/>
+                <input type="file" name='docs' required/>
+                <input type="submit" class="btn btn-danger" value="Upload"/>
+            </form>
+        </div>  
+    </div>  
+</div>  
+{% endblock %}
