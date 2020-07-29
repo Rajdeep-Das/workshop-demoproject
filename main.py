@@ -142,6 +142,61 @@ def delete(id):
     else:
         return redirect(url_for('login'))
 
+@app.route('/edit/<id>', methods=['GET', 'POST'])
+def edit(id):
+    if 'username' in session:
+        form = EmployeeForm(request.form)
+        if request.method == 'POST':
+            if form.validate():
+                empdata = request.form
+                firstname = empdata['firstname']
+                midname = empdata['midname']
+                lastname = empdata['lastname']
+                address = empdata['address']
+                email = empdata['email']
+                mobile = empdata['mobile']
+                gender = empdata['gender']
+                designation = empdata['designation']
+                name = firstname+" "+midname+" "+lastname
+                sql = "UPDATE employees SET name = %s, email = %s, mobile = %s, gender = %s, designation = %s, address = %s WHERE id = %s;"
+                conn = mysql.connect()
+                cursor = conn.cursor()
+                rows = cursor.execute(sql, (name, email, mobile, gender, designation, address, id))
+                conn.commit()
+                if rows > 0:
+                    flash('Employee Updated Successfully')
+                    return redirect(url_for('index'))  
+                else:
+                    flash('Failed to update employee!')
+                    return redirect(url_for('index'))
+                cursor.close()
+                conn.close()
+            else:
+                return render_template('edit.html', form=form, id=id)
+        elif request.method == 'GET':
+            sql = "SELECT * FROM employees WHERE id = %s;"
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql, (id))
+            data = cursor.fetchone()
+            fullname = data[1].split(" ")
+            ln = len(fullname)
+            if ln > 2:
+                form.firstname.data=fullname[0]
+                form.midname.data=fullname[1]
+                form.lastname.data=fullname[2]
+            else:
+                form.firstname.data=fullname[0]
+                form.lastname.data=fullname[1]
+            form.address.data=data[6]
+            form.email.data=data[2]
+            form.mobile.data=data[3]
+            form.gender.data=data[4]
+            form.designation.data=data[5]
+            return render_template('edit.html', form = form, id=id)
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/logout')
 def logout():
     session.pop('username',None)
